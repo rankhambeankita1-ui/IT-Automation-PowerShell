@@ -1,8 +1,15 @@
-$username = "ankita_test"
-$password = ConvertTo-SecureString "P@ss1234" -AsPlainText -Force
+try {
+    $username = Read-Host "Enter username"
+    $passwordInput = Read-Host "Enter password"
 
-New-LocalUser -Name $username -Password $password -FullName "Ankita Test"
+    $password = ConvertTo-SecureString $passwordInput -AsPlainText -Force
 
-Add-LocalGroupMember -Group "Administrators" -Member $username
+    New-LocalUser -Name $username -Password $password -FullName $username -Description "Created via automation"
 
-Write-Output "User created successfully"
+    Add-LocalGroupMember -Group "Administrators" -Member $username
+
+    Write-Output "User $username created successfully and added to Administrators group."
+}
+catch {
+    Write-Output "Error occurred while creating user."
+}
